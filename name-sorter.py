@@ -6,8 +6,13 @@ class Name:
         self.name_split = full_name.split()
         self.last_name = self.name_split[-1]
         self.given_names = self.name_split[:-1]
-        if len(self.given_names) > 3:
-            print("A name must only have up to 3 given names")
+        
+        if len(self.given_names) > 3 or len(self.given_names) == 0:
+            print(f'Error with name "{self.full_name}"')
+            if len(self.given_names) > 3:
+                print("A name must only have up to 3 given names")
+            else:
+                print("A name must have at least one given name")
             sys.exit(1)
 
     def __lt__(self, other):
