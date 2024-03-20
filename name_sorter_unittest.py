@@ -24,21 +24,36 @@ class TestName(unittest.TestCase):
 class TestNameSorter(unittest.TestCase):
     # Tests that the get_name() method reads the names from the input file correctly
     def test_get_names(self):
-        name_sorter = NameSorter("test-names-list.txt")
+        expected_input = ["James John Smith", "James Jamie Smith", "William Johnson"]
+        name_sorter = NameSorter("test-names-list.txt", "test-output.txt")
         name_sorter.get_names()
         self.assertEqual(len(name_sorter.names), 3)
-        self.assertEqual(name_sorter.names[0].full_name, "James John Smith")
-        self.assertEqual(name_sorter.names[1].full_name, "James Jamie Smith")
-        self.assertEqual(name_sorter.names[2].full_name, "William Johnson")
+        for i in range(len(expected_input)):
+            self.assertEqual(name_sorter.names[i].full_name, expected_input[i])
     
     # Tests that the sort_names() method correctly sorts the names alphabetically, first by last name, then by given name(s)
     def test_sort_names(self):
-        name_sorter = NameSorter("test-names-list.txt")
+        expected_output = ["William Johnson", "James Jamie Smith", "James John Smith"]
+
+        name_sorter = NameSorter("test-names-list.txt", "test-output.txt")
         name_sorter.get_names()
         name_sorter.sort_names()
-        self.assertEqual(name_sorter.names[0].full_name, "William Johnson")
-        self.assertEqual(name_sorter.names[1].full_name, "James Jamie Smith")
-        self.assertEqual(name_sorter.names[2].full_name, "James John Smith")
+
+        for i in range(len(expected_output)):
+            self.assertEqual(name_sorter.names[i].full_name, expected_output[i])
+
+    # Tests that the write_to_file() method correctly writes the sorted names to the output file.
+    def test_write_names(self):
+        expected_output = ["William Johnson", "James Jamie Smith", "James John Smith"]
+
+        name_sorter = NameSorter("test-names-list.txt", "test_output.txt")
+        name_sorter.get_names()
+        name_sorter.sort_names()
+        name_sorter.write_to_file()
+
+        with open("test_output.txt", "r") as f:
+            output = f.read().strip().split("\n")
+        self.assertEqual(output, expected_output)
 
 if __name__ == "__main__":
     unittest.main()

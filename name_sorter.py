@@ -26,8 +26,9 @@ class Name:
 # Defines class for sorting names
 class NameSorter:
     # Initialize NameSorter object with input file containing list of unsorted names
-    def __init__(self, input):
+    def __init__(self, input, output):
         self.input = input
+        self.output = output
         self.names = []
     
     # Read names from input file
@@ -51,12 +52,13 @@ class NameSorter:
     # Write the sorted names to text file
     def write_to_file(self):
         try:
-            with open("sorted-names-list.txt", "w") as file:
+            with open(self.output, "w") as file:
                 for name in self.names:
                     file.write(name.full_name + '\n')
             print("Sorted names written to file sorted-names-list.txt")
-        except:
+        except Exception as e:
             print("Unable to write sorted names to file")
+            print(e)
             sys.exit(1)
 
 # Define main function to execute sorting and output of sorted names
@@ -66,8 +68,9 @@ def main():
         sys.exit(1)
 
     input = sys.argv[1]
+    output = "sorted-names-list.txt"
 
-    name_sorter = NameSorter(input)
+    name_sorter = NameSorter(input, output)
     name_sorter.get_names()
     name_sorter.sort_names()
     name_sorter.print_sorted_names()
