@@ -6,7 +6,7 @@ class Name:
         self.name_split = full_name.split()
         self.last_name = self.name_split[-1]
         self.given_names = self.name_split[:-1]
-        
+
         if len(self.given_names) > 3 or len(self.given_names) == 0:
             print(f'Error with name "{self.full_name}"')
             if len(self.given_names) > 3:
@@ -43,12 +43,18 @@ class NameSorter:
             with open("sorted-names-list.txt", "w") as file:
                 for name in self.names:
                     file.write(name.full_name + '\n')
+            print("Sorted names written to file sorted-names-list.txt")
         except:
             print("Unable to write sorted names to file")
             sys.exit(1)
 
 def main():
-    input = "unsorted-names-list.txt"
+    if len(sys.argv) != 2:
+        print("To run this program, use: python name-sorter.py <input-file-name>")
+        sys.exit(1)
+
+    input = sys.argv[1]
+
     name_sorter = NameSorter(input)
     name_sorter.get_names()
     name_sorter.sort_names()
