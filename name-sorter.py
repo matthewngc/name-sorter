@@ -22,23 +22,33 @@ class NameSorter:
         try:
             with open(self.input, 'r') as file:
                 self.names = [Name(line.strip()) for line in file.readlines()]
-        except:
+        except Exception as e:
             print("File could not be found, please check the file name and try again.")
+            sys.exit(1)
 
     def sort_names(self):
         self.names.sort()
 
+    def print_sorted_names(self):
+        for name in self.names:
+            print(name.full_name)
+
     def write_to_file(self):
         try:
-            with open("sorted_names-list.txt", "w") as file:
+            with open("sorted-names-list.txt", "w") as file:
                 for name in self.names:
                     file.write(name.full_name + '\n')
-                    print(name.full_name)
         except:
             print("Unable to write sorted names to file")
             sys.exit(1)
 
-a = NameSorter("unsorted-names-list.txt")
-a.get_names()
-a.sort_names()
-a.write_to_file()
+def main():
+    input = "unsorted-names-list.txt"
+    name_sorter = NameSorter(input)
+    name_sorter.get_names()
+    name_sorter.sort_names()
+    name_sorter.print_sorted_names()
+    name_sorter.write_to_file()
+
+if __name__ == "__main__":
+    main()
